@@ -8,22 +8,27 @@ from customer import Customer
 def main():
 	bank = Bank()
 
-	tellers = [Teller(i + 1, bank) for i in range(3)]
+	# start 3 tellers with unique ids (0, 1, 2)
+	tellers = [Teller(i, bank) for i in range(3)]
 	for t in tellers:
 		t.start()
 
-	num_customers = 5
+	# create 50 customers with auto-generated unique ids
+	num_customers = 50
 	customers = [Customer(bank) for i in range(num_customers)]
 
+	# start customers
 	for c in customers:
 		c.start()
 
+	# wait for all customers to finish
 	for c in customers:
 		c.join()
 
+	# wait until queue tasks are marked done
 	bank.customer_queue.join()
 
-	print('All customers served. Exiting.')
+	print('The bank closes for the day.')
 
 if __name__ == '__main__':
 	main()
